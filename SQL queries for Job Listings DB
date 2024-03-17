@@ -81,8 +81,17 @@ AND (job_location IN ('Boston, MA', 'Anywhere'))
 ORDER BY 
 	job_title_short ASC;
 
+/* selects columns where role has word Data or Business it but not any senior roles */
 
-
+SELECT job_id, job_title as Job_Title, job_location as Location, salary_year_avg as Average_Yearly_Salary
+FROM
+	job_postings_fact
+WHERE 
+	((job_title LIKE '%Data%' OR job_title LIKE '%Business%')
+	AND
+    (job_title LIKE '%Analyst%')) 
+    AND
+    (job_title <> '%Senior%')
 
 -- select * from job_postings_fact;
 
