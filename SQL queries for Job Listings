@@ -1,0 +1,92 @@
+--select * from job_postings_fact; /*my entire data table for job postings */
+
+
+/* Selects distinct job locations from the job_postings_fact table */ 
+
+SELECT DISTINCT(job_location) 
+FROM
+job_postings_fact
+ORDER BY job_location ASC;
+
+/* Selects 4 columns from the job_postings_fact table and orders the result set by job location in alphabetical order */ 
+SELECT job_id, job_title_short, job_location, job_via
+FROM
+job_postings_fact
+ORDER BY job_location ASC;
+
+/* Selects 5 columns from the job_postings_fact table where the job role in a "data engineer" and orders the result set by average salary in descending order */ 
+SELECT job_id, job_title_short, job_location, job_via, salary_year_avg
+FROM
+job_postings_fact
+WHERE 
+	job_title_short = 'Data Engineer'
+ORDER BY salary_year_avg DESC;
+
+/* Selects 5 columns from the job_postings_fact table where the job location is 'Tampa, FL' and orders the result set by average salary in descending order */ 
+SELECT job_id, job_title_short, job_location, job_via, salary_year_avg
+FROM
+job_postings_fact
+WHERE 
+	job_location = 'Tampa, FL'
+ORDER BY salary_year_avg DESC;
+
+/* Selects 5 columns from the job_postings_fact table where the job type is 'Full-time' and orders the result set by average salary in descending order */ 
+SELECT job_id, job_title_short, job_location, job_via, salary_year_avg, job_schedule_type
+FROM
+job_postings_fact
+WHERE 
+	job_schedule_type = 'Full-time'
+ORDER BY salary_year_avg DESC;
+
+
+/* Selects 5 columns from the job_postings_fact table where the job type is NOT 'Part-time' and orders the result set by average salary in descending order */ 
+SELECT job_id, job_title_short, job_location, job_via, salary_year_avg, job_schedule_type
+FROM
+	job_postings_fact
+WHERE 
+	job_schedule_type <> 'Part-time'
+ORDER BY 
+	salary_year_avg DESC;
+
+
+/* Selects 5 columns from the job_postings_fact table where the job role is NOT advertised by 'via Linkedin' and orders the result set by average salary in descending order */ 
+SELECT job_id, job_title_short, job_location, job_via, salary_year_avg, job_schedule_type
+FROM
+	job_postings_fact
+WHERE 
+	job_via NOT IN ('via LinkedIn')
+ORDER BY 
+	salary_year_avg DESC;
+
+
+/* Selects 5 columns from the job_postings_fact table where the job role pays more than $65,000 and orders the result set by average salary in ascending order */ 
+SELECT job_id, job_title_short, job_location, job_via, salary_year_avg, job_schedule_type
+FROM
+	job_postings_fact
+WHERE 
+	salary_year_avg >= 65000
+ORDER BY 
+	salary_year_avg ASC;
+
+/* selects columns where role is either remote or in Boston and for specific roles i.e. Data Analyst > $100000 and Business Analyst > $70000 */
+SELECT job_id, job_title_short, job_location, job_via, salary_year_avg, job_schedule_type
+FROM
+	job_postings_fact
+WHERE 
+	((job_title_short = 'Data Analyst' AND salary_year_avg > 100000)
+OR
+	(job_title_short = 'Business Analyst' AND salary_year_avg > 70000))
+AND (job_location IN ('Boston, MA', 'Anywhere'))
+-- GROUP BY job_title_short
+ORDER BY 
+	job_title_short ASC;
+
+
+
+
+-- select * from job_postings_fact;
+
+
+
+
+
