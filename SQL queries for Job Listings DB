@@ -1,5 +1,25 @@
 --select * from job_postings_fact; /*my entire data table for job postings */
 
+/* Average salaries of remote work */
+SELECT (SUM(salary_year_avg) / 
+        COUNT(salary_year_avg IS NOT NULL)) AS avg_salary_for_remote_work
+FROM job_postings_fact
+WHERE
+job_work_from_home = 1
+AND
+salary_year_avg IS NOT NULL; 
+
+/* Total count of Jobs that offer health insrance */
+SELECT COUNT(job_id) AS count_health_insurance_jobs
+FROM job_postings_fact
+WHERE
+job_health_insurance = 1;
+
+/* Job postings across each country ordered by descending order*/
+SELECT job_country as Country, COUNT(job_id) AS num_of_jobs
+FROM job_postings_fact
+GROUP BY job_country
+ORDER BY num_of_jobs DESC;
 
 /* Selects distinct job locations from the job_postings_fact table */ 
 
