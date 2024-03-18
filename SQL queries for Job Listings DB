@@ -1,5 +1,33 @@
 --select * from job_postings_fact; /*my entire data table for job postings */
 
+/* Finds average salary per skill, num of jobs per each skill in descending order */
+SELECT skills_dim.skills, COUNT(jobs.job_id) AS job_count_per_skill, AVG(jobs.salary_year_avg) AS Avg_salary_per_skill
+
+FROM job_postings_fact AS jobs
+LEFT JOIN
+skills_job_dim
+ON
+jobs.job_id = skills_job_dim.job_id
+LEFT JOIN
+skills_dim as skills_dim 
+ON 
+skills_job_dim.skill_id = skills_dim.skill_id
+GROUP BY 
+skills_dim.skills
+ORDER BY Avg_salary_per_skill DESC, job_count_per_skill  DESC;
+
+/* Left joins jobs' table companies onto companies table company id and fileters on title of 'Data Scientist' */
+SELECT jobs.job_title, companies.name
+
+FROM job_postings_fact AS jobs
+LEFT JOIN
+company_dim AS companies
+ON
+jobs.company_id = companies.company_id
+WHERE
+jobs.job_title = 'Data Scientist';
+
+
 /* Average salaries of remote work */
 SELECT (SUM(salary_year_avg) / 
         COUNT(salary_year_avg IS NOT NULL)) AS avg_salary_for_remote_work
